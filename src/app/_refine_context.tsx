@@ -116,10 +116,10 @@ const App = (props: React.PropsWithChildren<AppProps>) => {
               resources={[
                 {
                   name: "blog_posts",
-                  list: "/blog-posts",
-                  create: "/blog-posts/create",
-                  edit: "/blog-posts/edit/:id",
-                  show: "/blog-posts/show/:id",
+                  list: "/links",
+                  create: "/links/create",
+                  edit: "/links/edit/:id",
+                  show: "/links/show/:id",
                   meta: {
                     canDelete: true,
                   },
