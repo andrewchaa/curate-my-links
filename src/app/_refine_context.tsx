@@ -11,7 +11,8 @@ import routerProvider from "@refinedev/nextjs-router";
 
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ColorModeContextProvider } from "@contexts/color-mode";
-import { dataProvider } from "@providers/data-provider";
+// import { dataProvider } from "@providers/data-provider";
+import { dataProvider } from "../providers/data-provider";
 import "@refinedev/antd/dist/reset.css";
 
 type RefineContextProps = {
@@ -110,12 +111,12 @@ const App = (props: React.PropsWithChildren<AppProps>) => {
           <ColorModeContextProvider defaultMode={defaultMode}>
             <Refine
               routerProvider={routerProvider}
-              dataProvider={dataProvider}
+              dataProvider={dataProvider()}
               notificationProvider={useNotificationProvider}
               authProvider={authProvider}
               resources={[
                 {
-                  name: "blog_posts",
+                  name: "links",
                   list: "/links",
                   create: "/links/create",
                   edit: "/links/edit/:id",

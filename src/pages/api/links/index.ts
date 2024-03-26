@@ -44,7 +44,13 @@ export default async function handler(
   //   .toArray()
 
   res.status(200).json({
-    data: ['test'],
+    data: [{
+      link: 'https://www.google.com',
+      description: 'Google',
+      tags: ['search', 'engine'],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }],
     message: 'Success',
   })
 

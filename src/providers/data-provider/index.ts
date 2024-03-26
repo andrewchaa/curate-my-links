@@ -1,7 +1,25 @@
-"use client";
+"use client"
 
-import dataProviderSimpleRest from "@refinedev/simple-rest";
+import { IDataContextProvider } from "@refinedev/core/dist/interfaces"
 
-const API_URL = "https://api.fake-rest.refine.dev";
-
-export const dataProvider = dataProviderSimpleRest(API_URL);
+export const dataProvider = (): IDataContextProvider => ({
+  getList: async ({ resource }: { resource: string }) => {
+    const res = await fetch(`/api/${resource}`)
+    return res.json()
+  },
+  getOne: async ({ resource }: { resource: string }) => {
+    throw new Error('Not implemented')
+  },
+  create: async ({ resource }: { resource: string }) => {
+    throw new Error('Not implemented')
+  },
+  update: async ({ resource }: { resource: string }) => {
+    throw new Error('Not implemented')
+  },
+  deleteOne: async ({ resource }: { resource: string }) => {
+    throw new Error('Not implemented')
+  },
+  getApiUrl: () => {
+    throw new Error('Not implemented')
+  }
+})
