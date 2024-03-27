@@ -34,7 +34,7 @@ export default function LinkList() {
         <Table.Column
           dataIndex="title"
           title={"Title"}
-          render={(value: string, record) => (
+          render={(value: string, record: any) => (
             <a href={record.link} target='_blank' rel='noopener noreferer'>
               {value}
             </a>
