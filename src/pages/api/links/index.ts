@@ -7,12 +7,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // const database = client.db('service-agent')
 // const jobsCollection = database.collection('jobs')
 
-export type DownloadResponse = {
-  message: string
-  data: any
-}
-
-
 export const config = {
   api: {
     responseLimit: false,
@@ -21,9 +15,32 @@ export const config = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<DownloadResponse>
+  res: NextApiResponse
 ) {
-  console.info('donwloading jobs ...')
+  if (req.method === 'GET') {
+    res.status(200).json({
+      data: [{
+        _id: '1',
+        link: 'https://www.google.com',
+        title: 'Google',
+        description: 'Search engine',
+        tags: ['search', 'engine'],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }],
+      message: 'Success',
+    })
+    return
+  }
+
+  if (req.method === 'POST') {
+    console.log('post', req.body);
+    res.status(201).json({ message: 'POST request handled successfully' });
+    return
+  }
+
+
+  res.status(405).json({ message: 'Method Not Allowed' });
 
   // const result = await jobsCollection
   //   .find<Job>({})
@@ -43,19 +60,6 @@ export default async function handler(
   //   })
   //   .toArray()
 
-  res.status(200).json({
-    data: [{
-      _id: '1',
-      link: 'https://www.google.com',
-      title: 'Google',
-      description: 'Search engine',
-      tags: ['search', 'engine'],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }],
-    message: 'Success',
-  })
 
   // console.info(`done with ${result.length} jobs ...`)
-  console.info(`done with 1 jobs ...`)
 }

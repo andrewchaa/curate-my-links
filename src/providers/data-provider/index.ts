@@ -1,6 +1,6 @@
 "use client"
 
-import { IDataContextProvider } from "@refinedev/core/dist/interfaces"
+import { CreateResponse, IDataContextProvider } from "@refinedev/core/dist/interfaces"
 
 export const dataProvider = (): IDataContextProvider => ({
   getList: async ({ resource }: { resource: string }) => {
@@ -10,8 +10,20 @@ export const dataProvider = (): IDataContextProvider => ({
   getOne: async ({ resource }: { resource: string }) => {
     throw new Error('Not implemented')
   },
-  create: async ({ resource }: { resource: string }) => {
-    throw new Error('Not implemented')
+  create: async (params) => {
+    console.log('params', params)
+    const res = await fetch(`/api/${params.resource}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params.variables)
+    })
+    if (res.status !== 201) {
+      throw new Error('Failed to create')
+    }
+
+    return res.json()
   },
   update: async ({ resource }: { resource: string }) => {
     throw new Error('Not implemented')
