@@ -1,11 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-// import { MongoClient } from 'mongodb'
-// import { DownloadResponse } from '../../../../types/DownloadResponse'
-// import { Job } from '../../../../types/Job'
-
-// const client = new MongoClient(process.env.mongodb_connection_string || '')
-// const database = client.db('service-agent')
-// const jobsCollection = database.collection('jobs')
+import { MongoClient } from 'mongodb'
+const client = new MongoClient(process.env.mongodb_connection_string || '')
+const database = client.db('curate-my-links')
+const linksCollection = database.collection('links')
 
 export const config = {
   api: {
