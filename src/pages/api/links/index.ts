@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { MongoClient } from 'mongodb'
-const client = new MongoClient(process.env.mongodb_connection_string || '')
-const database = client.db('curate-my-links')
-const linksCollection = database.collection('links')
+import { insertLink } from './linksRepository'
 
 export const config = {
   api: {
@@ -31,9 +29,20 @@ export default async function handler(
   }
 
   if (req.method === 'POST') {
-    console.log('post', req.body);
-    res.status(201).json({ message: 'POST request handled successfully' });
-    return
+    console.log('Creating a new link: ', req.body);
+
+    const insertResult = await insertLink({
+      email: req.body.email,
+      link: req.body.link,
+      title: req.body.title,
+      description: req.body.description,
+      tags: req.body.tags,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    return insertResult.error
+      ? res.status(500).json({ message: insertResult.error })
+      : res.status(201).json({ message: 'New link has been successfully saved' });
   }
 
 

@@ -1,14 +1,24 @@
 "use client";
 
-import { Create, useForm, useSelect } from "@refinedev/antd";
-import { Form, Input, Select, Tag } from "antd";
+import { Create, useForm } from "@refinedev/antd";
+import { Form, Input, Select } from "antd";
+import { useSession } from "next-auth/react";
 
 export default function BlogPostCreate() {
+  const { data } = useSession();
   const { formProps, saveButtonProps } = useForm({});
 
   return (
     <Create saveButtonProps={saveButtonProps}>
       <Form {...formProps} layout="vertical">
+        <Form.Item
+          name={["email"]}
+          initialValue={data?.user?.email}
+          hidden
+        >
+          <Input />
+        </Form.Item>
+
         <Form.Item
           label={"Link"}
           name={["link"]}
