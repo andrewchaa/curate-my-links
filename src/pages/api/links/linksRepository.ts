@@ -20,3 +20,15 @@ export const insertLink = async (myLink: MyLink) => {
     return { code: '500', error }
   }
 }
+
+export const listLinks = async (email: string) => {
+  console.log('Listing links for user: ', email)
+
+  try {
+    const links = await linksCollection.find({ email }).toArray()
+    console.log('Found links: ', links)
+    return { code: '200', data: links }
+  } catch (error) {
+    return { code: '500', error }
+  }
+}

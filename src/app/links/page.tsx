@@ -11,11 +11,22 @@ import {
 } from "@refinedev/antd";
 import { BaseRecord, useMany } from "@refinedev/core";
 import { Space, Table, Tag } from "antd";
+import { useSession } from "next-auth/react";
 
 export default function LinkList() {
-  const { tableProps } = useTable({
+  const { data } = useSession();
+  const { tableProps, setFilters } = useTable({
     syncWithLocation: true,
+    filters: {
+      permanent: [{
+        field: 'email',
+        operator: 'eq',
+        value: data?.user?.email
+      }]
+    },
   });
+
+  // setFilters([]);
 
   const { data: categoryData, isLoading: categoryIsLoading } = useMany({
     resource: "categories",
