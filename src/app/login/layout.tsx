@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import React from "react";
 
+// layout for login page
 export default async function LoginLayout({
   children,
 }: React.PropsWithChildren) {
