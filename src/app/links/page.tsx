@@ -10,7 +10,7 @@ import {
   useTable,
 } from "@refinedev/antd";
 import { BaseRecord, useMany } from "@refinedev/core";
-import { Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag } from "antd";
 import { useSession } from "next-auth/react";
 
 export default function LinkList() {
@@ -41,52 +41,32 @@ export default function LinkList() {
 
   return (
     <List>
-      <Table {...tableProps} rowKey="id">
-        <Table.Column
-          dataIndex="title"
-          title={"Title"}
-          render={(value: string, record: any) => (
-            <a href={record.link} target='_blank' rel='noopener noreferer'>
-              {value}
+      {tableProps.dataSource?.map((record: any) => (
+        <div key={record.id} style={{paddingTop:15}}>
+          <div>
+            <a href={record.link} target='_blank' rel='noopener noreferrer'>
+              {record.title}{': '}
             </a>
-          )}
-        />
-        <Table.Column
-          dataIndex="description"
-          title={"Description"}
-          render={(value: any) => {
-            if (!value) return "-";
-            return <MarkdownField value={value.slice(0, 80) + "..."} />;
-          }}
-        />
-        <Table.Column
-          dataIndex={["createdAt"]}
-          title={"Created at"}
-          render={(value: any) => <DateField value={value} format={'DD/MM/YYYY'} />}
-        />
-        <Table.Column
-          dataIndex='tags'
-          title='Tags'
-          render={(tags: string[]) => (
-            <>
-              {tags.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
-            </>
-          )}
-        />
-        <Table.Column
-          title={"Actions"}
-          dataIndex="actions"
-          render={(_, record: BaseRecord) => (
-            <Space>
-              <EditButton hideText size="small" recordItemId={record.id} />
-              <ShowButton hideText size="small" recordItemId={record.id} />
-              <DeleteButton hideText size="small" recordItemId={record.id} />
-            </Space>
-          )}
-        />
-      </Table>
+            {record.description ? (
+              <span>{record.description.slice(0, 80) + "..."}</span>
+            ) : (
+              "-"
+            )}
+          </div>
+          <div>
+            {record.tags.map((tag: string) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
+          <Space>
+            <EditButton hideText size="small" recordItemId={record.id} />
+            <ShowButton hideText size="small" recordItemId={record.id} />
+            <DeleteButton hideText size="small" recordItemId={record.id} />
+          </Space>
+
+          </div>
+        </div>
+      ))}
+
     </List>
   );
 }
