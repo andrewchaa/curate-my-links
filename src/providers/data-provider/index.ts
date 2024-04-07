@@ -6,10 +6,15 @@ export const dataProvider = (): IDataContextProvider => {
   return ({
     getList: async (params) => {
       const queryString = params
-        .filters?.map(filter => `${filter.field}=${filter.value}`)
-        .join('&')
-      const res = await fetch(`/api/${params.resource}?${queryString}`)
-      return res.json()
+        .filters?.map(filter => {
+          if ('field' in filter) {
+            return `${filter.field}=${filter.value}`;
+          }
+          return '';
+        })
+        .join('&');
+      const res = await fetch(`/api/${params.resource}?${queryString}`);
+      return res.json();
     },
     getOne: async ({ resource }: { resource: string }) => {
       throw new Error('Not implemented')
